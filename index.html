@@ -13,27 +13,31 @@
   ></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ vanilla, big }) {
+    function Btn({ vanilla, onClick }) {
+      console.log(vanilla, "was rendered");
       return (
         <button
+          onClick={onClick}
           style={{
             backgroundColor: "#F9E5BC",
             color: "black",
             padding: "10px 20px",
             border: 0,
             borderRadius: 10,
-            fontSize: big ? 18 : 16,
           }}
         >
           {vanilla}
         </button>
       );
     }
+    const MemorizedBtn = React.memo(Btn);
     function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <Btn vanilla="Save Changes" big="true" />
-          <Btn vanilla="Continue" big="false" />
+          <MemorizedBtn vanilla={value} onClick={changeValue} />
+          <MemorizedBtn vanilla="Continue" />
         </div>
       );
     }
